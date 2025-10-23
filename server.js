@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json()); // 👈 This parses incoming JSON body
 
 app.use(cors({
-  origin: ['http://localhost:5174', 'http://localhost:5173'],
+  origin: ['http://localhost:5174', 'http://localhost:5173',"https://backend-ben.vercel.app"],
   credentials: true   // allow cookies and auth headers
 }));
 
@@ -39,3 +39,4 @@ app.listen(PORT, () => {
   console.log(`📂 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🌐 CORS allowed origins: http://localhost:5174, http://localhost:5173`);
 });
+
