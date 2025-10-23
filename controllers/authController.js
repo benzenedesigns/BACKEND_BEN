@@ -2,21 +2,19 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
-
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Check if email exists
-    const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    if (existingUser.length > 0) {
+    const [existingUsers] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+    console.log(existingUsers);
+
+    if (existingUsers.length > 0) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save new user
     await db.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [
       name,
       email,
@@ -29,7 +27,6 @@ const register = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -67,3 +64,4 @@ const getMe = async (req, res) => {
 
 
 module.exports = { register, login, getMe };
+
