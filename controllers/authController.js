@@ -6,8 +6,9 @@ const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    // Destructure rows from the query result
     const [existingUsers] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    console.log(existingUsers);
+    console.log(existingUsers); // Should log an array (empty or with users)
 
     if (existingUsers.length > 0) {
       return res.status(400).json({ message: "Email already exists" });
@@ -27,6 +28,7 @@ const register = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -64,4 +66,5 @@ const getMe = async (req, res) => {
 
 
 module.exports = { register, login, getMe };
+
 
